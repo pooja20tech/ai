@@ -1,0 +1,143 @@
+% Ambani Family Tree Program
+
+% -------- DOMAINS --------
+% person = symbol
+% male = X
+% female = Y
+
+% -------- FACTS --------
+
+% Male members (X)
+male(dhirubhai).
+male(mukesh).
+male(anil).
+male(akash).
+male(anant).
+
+% Female members (Y)
+female(kokilaben).
+female(nita).
+female(tina).
+female(isha).
+
+% Marriage
+married(dhirubhai, kokilaben).
+married(mukesh, nita).
+married(anil, tina).
+
+% Parent relationships: parent(Child, Parent)
+parent(mukesh, dhirubhai).
+parent(mukesh, kokilaben).
+
+parent(anil, dhirubhai).
+parent(anil, kokilaben).
+
+parent(akash, mukesh).
+parent(akash, nita).
+
+parent(isha, mukesh).
+parent(isha, nita).
+
+parent(anant, mukesh).
+parent(anant, nita).
+
+% -------- PREDICATES --------
+% father(X,Y), mother(X,Y)
+% husband(X,Y), wife(X,Y)
+% son(X,Y), daughter(X,Y)
+% sibling(X,Y), brother(X,Y), sister(X,Y)
+% grandfather(X,Y), grandmother(X,Y)
+
+% -------- CLAUSES --------
+
+% Father
+father(Child,Father) :-
+    parent(Child,Father),
+    male(Father).
+
+% Mother
+mother(Child,Mother) :-
+    parent(Child,Mother),
+    female(Mother).
+
+% Husband
+husband(Husband,Wife) :-
+    married(Husband,Wife),
+    male(Husband).
+husband(Husband,Wife) :-
+    married(Wife,Husband),
+    male(Husband).
+
+% Wife
+wife(Wife,Husband) :-
+    married(Husband,Wife),
+    female(Wife).
+wife(Wife,Husband) :-
+    married(Wife,Husband),
+    female(Wife).
+
+% Son
+son(Child,Parent) :-
+    parent(Child,Parent),
+    male(Child).
+
+% Daughter
+daughter(Child,Parent) :-
+    parent(Child,Parent),
+    female(Child).
+
+% Sibling
+sibling(X,Y) :-
+    parent(X,P),
+    parent(Y,P),
+    X \= Y.
+
+% Brother
+brother(X,Y) :-
+    sibling(X,Y),
+    male(X).
+
+% Sister
+sister(X,Y) :-
+    sibling(X,Y),
+    female(X).
+
+% Grandfather
+grandfather(Child,Grandfather) :-
+    parent(Child,Parent),
+    parent(Parent,Grandfather),
+    male(Grandfather).
+
+% Grandmother
+grandmother(Child,Grandmother) :-
+    parent(Child,Parent),
+    parent(Parent,Grandmother),
+    female(Grandmother).
+
+
+
+
+
+
+    run:
+ Open SWI-Prolog (already installed in lab PC)
+Create file → family.pl
+Paste code
+Run:
+['family.pl'].   
+
+Write sample queries
+
+Example:
+
+father(isha, X).
+mother(isha, Y).
+sibling(isha, X).
+
+3. Write expected output
+
+Example:
+
+X = mukesh
+Y = nita
+X = akash ; anant
